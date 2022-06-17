@@ -3,6 +3,8 @@ const { animals } = require('./data/animals.json');
 
 const app = express();
 
+const PORT = process.env.PORT || 3001;
+
 function filterByQuery(query, animalsArray) {
     let personalityTraitsArray = [];
     let filteredResults = animalsArray;
@@ -18,7 +20,7 @@ function filterByQuery(query, animalsArray) {
             filteredResults = filteredResults.filter(animal => animal.personalityTraits.indexOf(trait) !== -1);
         });
     };
-    
+
     if (query.diet) {
         filteredResults = filteredResults.filter(animal => animal.diet === query.diet);
     }
@@ -40,6 +42,6 @@ app.get('/api/animals', (req, res) => {
     res.json(results);
 });
 
-app.listen(3001, () => {
+app.listen(PORT, () => {
     console.log('API server now on port 3001!');
 });
