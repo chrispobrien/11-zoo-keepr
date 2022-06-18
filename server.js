@@ -11,6 +11,9 @@ app.use(express.urlencoded({ extended: true }));
 // Parse incoming JSON data
 app.use(express.json());
 
+// Make certain files readily available - not as an endpoint
+app.use(express.static('public'));
+
 const PORT = process.env.PORT || 3001;
 
 function filterByQuery(query, animalsArray) {
@@ -88,6 +91,22 @@ app.get('/api/animals/:id', (req, res) => {
     } else {
         res.sendStatus(404);
     };
+});
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+app.get('/zookeepers', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 app.post('/api/animals', (req, res) => {
